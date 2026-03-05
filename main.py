@@ -9,7 +9,26 @@ import logging
 from flask import Flask, render_template, request, redirect, url_for
 
 # 配置日志
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+import datetime
+import os
+
+# 创建logs目录
+logs_dir = 'logs'
+os.makedirs(logs_dir, exist_ok=True)
+
+# 生成当天日期的日志文件名
+today = datetime.datetime.now().strftime('%Y-%m-%d')
+log_file = os.path.join(logs_dir, f'orange pi-connectease-{today}.log')
+
+# 配置日志
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_file),
+        logging.StreamHandler()
+    ]
+)
 logger = logging.getLogger('OrangePi-ConnectEase')
 
 # 导入自定义模块

@@ -1,10 +1,14 @@
 import time
 import threading
+import logging
+
+logger = logging.getLogger('LEDControl')
 
 class LEDControl:
     def __init__(self):
         self.red_led_pin = 'PA17'  # 红灯GPIO口
         self.green_led_pin = 'PL10'  # 绿灯GPIO口
+        logger.info(f"初始化LED控制器，红灯引脚: {self.red_led_pin}, 绿灯引脚: {self.green_led_pin}")
         self._init_gpio()
         self._stop_event = threading.Event()
         self._thread = None
@@ -25,34 +29,42 @@ class LEDControl:
     def _init_gpio(self):
         """初始化GPIO"""
         try:
+            logger.info("初始化GPIO")
             # 导出GPIO
             red_gpio = self._get_gpio_number(self.red_led_pin)
             green_gpio = self._get_gpio_number(self.green_led_pin)
             
+            logger.info(f"导出红灯GPIO: {red_gpio}")
             with open('/sys/class/gpio/export', 'w') as f:
                 f.write(str(red_gpio))
+            logger.info(f"导出绿灯GPIO: {green_gpio}")
             with open('/sys/class/gpio/export', 'w') as f:
                 f.write(str(green_gpio))
             
             # 设置为输出
+            logger.info(f"设置红灯GPIO为输出")
             with open('/sys/class/gpio/{}/direction'.format(red_gpio), 'w') as f:
                 f.write('out')
+            logger.info(f"设置绿灯GPIO为输出")
             with open('/sys/class/gpio/{}/direction'.format(green_gpio), 'w') as f:
                 f.write('out')
+            logger.info("GPIO初始化成功")
         except Exception as e:
-            print("初始化GPIO失败: {}".format(e))
+            logger.error("初始化GPIO失败: {}".format(e))
     
     def _set_led(self, pin, state):
         """设置LED状态"""
         try:
             gpio_number = self._get_gpio_number(pin)
+            logger.debug(f"设置LED状态: {pin} (GPIO {gpio_number}) = {state}")
             with open('/sys/class/gpio/{}/value'.format(gpio_number), 'w') as f:
                 f.write('1' if state else '0')
         except Exception as e:
-            print("设置LED失败: {}".format(e))
+            logger.error("设置LED失败: {}".format(e))
     
     def set_disconnected(self):
         """设置未连接状态：红灯慢速闪烁"""
+        logger.info("设置未连接状态：红灯慢速闪烁")
         # 停止当前线程
         self._stop_event.set()
         if self._thread:
@@ -63,9 +75,11 @@ class LEDControl:
         self._thread = threading.Thread(target=self._blink_red)
         self._thread.daemon = True
         self._thread.start()
+        logger.info("未连接状态设置完成")
     
     def set_connected(self):
         """设置已连接状态：红灯灭，绿灯慢速闪烁"""
+        logger.info("设置已连接状态：绿灯慢速闪烁")
         # 停止当前线程
         self._stop_event.set()
         if self._thread:
@@ -79,6 +93,7 @@ class LEDControl:
         self._thread = threading.Thread(target=self._blink_green)
         self._thread.daemon = True
         self._thread.start()
+        logger.info("已连接状态设置完成")
     
     def _blink_red(self):
         """红灯闪烁"""
