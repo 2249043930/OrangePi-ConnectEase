@@ -1,0 +1,338 @@
+/* 基础样式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 卡片样式 */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.card-header.bg-success {
+    background-color: #28a745;
+}
+
+.card-header.bg-danger {
+    background-color: #dc3545;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* 标题样式 */
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 30px 0 15px;
+}
+
+h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+/* 警告框样式 */
+.alert {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* 网格布局 */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.col-md-6 {
+    flex: 0 0 50%;
+    padding: 0 15px;
+    margin-bottom: 20px;
+}
+
+/* WiFi卡片样式 */
+.wifi-card {
+    transition: transform 0.2s;
+}
+
+.wifi-card:hover {
+    transform: translateY(-2px);
+}
+
+.card-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* 信号强度样式 */
+.signal {
+    display: flex;
+    align-items: flex-end;
+}
+
+.signal-bar {
+    display: inline-block;
+    width: 8px;
+    margin-right: 2px;
+    background-color: #6c757d;
+}
+
+.signal-strong .signal-bar:nth-child(1),
+.signal-strong .signal-bar:nth-child(2),
+.signal-strong .signal-bar:nth-child(3),
+.signal-strong .signal-bar:nth-child(4) {
+    background-color: #28a745;
+}
+
+.signal-medium .signal-bar:nth-child(1),
+.signal-medium .signal-bar:nth-child(2),
+.signal-medium .signal-bar:nth-child(3) {
+    background-color: #ffc107;
+}
+
+.signal-weak .signal-bar:nth-child(1),
+.signal-weak .signal-bar:nth-child(2) {
+    background-color: #dc3545;
+}
+
+/* 徽章样式 */
+.badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: white;
+}
+
+/* 表单样式 */
+form {
+    margin-top: 15px;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-text {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* 按钮样式 */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* 列表组样式 */
+.list-group {
+    margin-top: 20px;
+}
+
+.list-group-item {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-bottom: none;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.list-group-item:last-child {
+    border-bottom: 1px solid #dee2e6;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/* 弹性布局 */
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.d-inline {
+    display: inline;
+}
+
+/* 文本居中 */
+.text-center {
+    text-align: center;
+}
+
+/* 间距 */
+.mt-3 {
+    margin-top: 15px;
+}
+
+.mt-5 {
+    margin-top: 30px;
+}
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.mb-4 {
+    margin-bottom: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .col-md-6 {
+        flex: 0 0 100%;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 480px) {
+    .card-header {
+        padding: 15px;
+    }
+    
+    .card-body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 18px;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}

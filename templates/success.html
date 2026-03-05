@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>连接成功</title>
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-success text-white text-center">
+                <h1>连接成功</h1>
+            </div>
+            <div class="card-body text-center">
+                <div class="alert alert-success">
+                    <h4 class="alert-heading">恭喜！</h4>
+                    <p>您已成功连接到 WiFi: <strong>{{ current }}</strong></p>
+                    <hr>
+                    <p class="mb-0">开发板将自动关闭热点，您可以通过网络访问开发板。</p>
+                </div>
+                <a href="/" class="btn btn-primary mt-3">返回首页</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

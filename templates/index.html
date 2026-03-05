@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrangePi WiFi 配置</title>
+    <link href="/static/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h1>OrangePi WiFi 配置</h1>
+            </div>
+            <div class="card-body">
+                {% if current %}
+                <div class="alert alert-success mb-4">
+                    <h4 class="alert-heading">当前连接</h4>
+                    <p>已连接到: <strong>{{ current }}</strong></p>
+                </div>
+                {% endif %}
+                
+                <h2 class="mb-4">可用 WiFi</h2>
+                <div class="row">
+                    {% for wifi in wifi_list %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card wifi-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title">{{ wifi.ssid }}</h5>
+                                    <div class="signal">
+                                        <div class="signal-bar" style="height: 8px;"></div>
+                                        <div class="signal-bar" style="height: 16px;"></div>
+                                        <div class="signal-bar" style="height: 24px;"></div>
+                                        <div class="signal-bar" style="height: 32px;"></div>
+                                    </div>
+                                </div>
+                                <p class="card-text">
+                                    {% if wifi.encrypted %}
+                                    <span class="badge badge-warning">需要密码</span>
+                                    {% else %}
+                                    <span class="badge badge-success">无需密码</span>
+                                    {% endif %}
+                                </p>
+                                <form action="/connect" method="post" class="mt-3">
+                                    <input type="hidden" name="ssid" value="{{ wifi.ssid }}">
+                                    {% if wifi.encrypted %}
+                                    <div class="mb-3">
+                                        <label for="password_{{ loop.index }}" class="form-label">密码</label>
+                                        <input type="password" class="form-control" id="password_{{ loop.index }}" name="password" required minlength="8">
+                                        <div class="form-text">密码长度至少8位</div>
+                                    </div>
+                                    {% endif %}
+                                    <button type="submit" class="btn btn-primary btn-block">连接</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if history %}
+                <h2 class="mt-5 mb-4">历史连接</h2>
+                <div class="list-group">
+                    {% for item in history %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <span>{{ item[1] }}</span>
+                            <form action="/connect" method="post" class="d-inline">
+                                <input type="hidden" name="ssid" value="{{ item[1] }}">
+                                <input type="hidden" name="password" value="{{ item[2] }}">
+                                <button type="submit" class="btn btn-sm btn-outline-primary">重新连接</button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        // 计算信号强度
+        document.addEventListener('DOMContentLoaded', function() {
+            const signals = document.querySelectorAll('.signal');
+            signals.forEach(signal => {
+                // 这里可以根据实际信号强度设置不同的样式
+                signal.classList.add('signal-medium');
+            });
+        });
+    </script>
+</body>
+</html>
