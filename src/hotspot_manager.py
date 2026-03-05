@@ -2,8 +2,6 @@ import subprocess
 import os
 import logging
 
-# 配置日志
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('HotspotManager')
 
 class HotspotManager:
@@ -23,16 +21,16 @@ class HotspotManager:
             
             # 停止可能正在运行的服务
             logger.info("停止wpa_supplicant服务")
-            subprocess.run(['systemctl', 'stop', 'wpa_supplicant'], capture_output=True)
+            subprocess.call(['systemctl', 'stop', 'wpa_supplicant'])
             logger.info("停止dnsmasq服务")
-            subprocess.run(['systemctl', 'stop', 'dnsmasq'], capture_output=True)
+            subprocess.call(['systemctl', 'stop', 'dnsmasq'])
             
             # 配置网络接口
             logger.info("配置网络接口 {}".format(self.interface))
-            result = subprocess.run(['ifconfig', self.interface, '192.168.42.1', 'netmask', '255.255.255.0'], 
-                                   capture_output=True, text=True)
-            if result.returncode != 0:
-                logger.error("配置网络接口失败: {}".format(result.stderr))
+            try:
+                subprocess.check_call(['ifconfig', self.interface, '192.168.42.1', 'netmask', '255.255.255.0'])
+            except subprocess.CalledProcessError as e:
+                logger.error("配置网络接口失败: {}".format(e))
                 return False
             
             # 确保配置目录存在
@@ -46,15 +44,17 @@ class HotspotManager:
             
             # 启动服务
             logger.info("启动hostapd服务")
-            result = subprocess.run(['systemctl', 'start', 'hostapd'], capture_output=True, text=True)
-            if result.returncode != 0:
-                logger.error("启动hostapd失败: {}".format(result.stderr))
+            try:
+                subprocess.check_call(['systemctl', 'start', 'hostapd'])
+            except subprocess.CalledProcessError as e:
+                logger.error("启动hostapd失败: {}".format(e))
                 return False
             
             logger.info("启动dnsmasq服务")
-            result = subprocess.run(['systemctl', 'start', 'dnsmasq'], capture_output=True, text=True)
-            if result.returncode != 0:
-                logger.error("启动dnsmasq失败: {}".format(result.stderr))
+            try:
+                subprocess.check_call(['systemctl', 'start', 'dnsmasq'])
+            except subprocess.CalledProcessError as e:
+                logger.error("启动dnsmasq失败: {}".format(e))
                 return False
             
             logger.info("热点已启动: {}".format(self.hotspot_name))
@@ -67,16 +67,19 @@ class HotspotManager:
         """停止热点"""
         try:
             logger.info("停止热点")
-            subprocess.run(['systemctl', 'stop', 'hostapd'], capture_output=True)
-            subprocess.run(['systemctl', 'stop', 'dnsmasq'], capture_output=True)
+            subprocess.call(['systemctl', 'stop', 'hostapd'])
+            subprocess.call(['systemctl', 'stop', 'dnsmasq'])
             logger.info("热点已停止")
         except Exception as e:
             logger.error("停止热点失败: {}".format(e))
     
     def _check_interface_exists(self):
         """检查WiFi接口是否存在"""
-        result = subprocess.run(['ip', 'link', 'show', self.interface], capture_output=True)
-        return result.returncode == 0
+        try:
+            subprocess.check_call(['ip', 'link', 'show', self.interface])
+            return True
+        except subprocess.CalledProcessError:
+            return False
     
     def _ensure_directories(self):
         """确保配置目录存在"""

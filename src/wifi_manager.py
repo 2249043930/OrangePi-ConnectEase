@@ -14,11 +14,14 @@ class WifiManager:
         try:
             logger.info("开始扫描周围的WiFi")
             # 使用iwlist命令扫描WiFi
-            result = subprocess.run(['iwlist', 'wlan0', 'scan'], 
-                                  capture_output=True, text=True)
+            import subprocess
+            proc = subprocess.Popen(['iwlist', 'wlan0', 'scan'], 
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = proc.communicate()
+            result = stdout.decode('utf-8')
             
             wifi_list = []
-            lines = result.stdout.split('\n')
+            lines = result.split('\n')
             
             current_wifi = {}
             for line in lines:
@@ -90,9 +93,10 @@ class WifiManager:
         """获取当前连接的WiFi"""
         try:
             logger.debug("获取当前连接的WiFi")
-            result = subprocess.run(['iwgetid', '-r'], 
-                                  capture_output=True, text=True)
-            ssid = result.stdout.strip()
+            proc = subprocess.Popen(['iwgetid', '-r'], 
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = proc.communicate()
+            ssid = stdout.decode('utf-8').strip()
             if ssid:
                 logger.info(f"当前连接的WiFi: {ssid}")
                 return ssid
