@@ -1,0 +1,13 @@
+[Unit]
+Description=OrangePi ConnectEase Service
+After=network.target
+
+[Service]
+Type=simple
+User=orangepi
+WorkingDirectory=/home/OrangePi-ConnectEase
+ExecStart=/home/OrangePi-ConnectEase/venv/bin/python /home/OrangePi-ConnectEase/main.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -51,30 +51,10 @@ pip install -r requirements.txt
 
 ### 2.3 配置系统服务
 
-#### 创建系统服务文件
+项目已经包含了系统服务配置文件 `orangepi-connectease.service`，直接复制到系统目录即可：
+
 ```bash
-sudo nano /etc/systemd/system/orangepi-connectease.service
-```
-
-#### 写入以下内容
-```ini
-[Unit]
-Description=OrangePi ConnectEase Service
-After=network.target
-
-[Service]
-Type=simple
-User=orangepi
-WorkingDirectory=/home/OrangePi-ConnectEase
-ExecStart=/home/OrangePi-ConnectEase/venv/bin/python /home/OrangePi-ConnectEase/main.py
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-```
-
-#### 启用并启动服务
-```bash
+sudo cp orangepi-connectease.service /etc/systemd/system/
 sudo systemctl enable orangepi-connectease
 sudo systemctl start orangepi-connectease
 ```
@@ -137,27 +117,28 @@ sudo journalctl -u orangepi-connectease
 
 ```
 OrangePi-ConnectEase/
-├── main.py              # 主程序
-├── src/                 # 源代码目录
-│   ├── wifi_manager.py  # WiFi 管理模块
-│   ├── hotspot_manager.py # 热点管理模块
-│   ├── led_control.py   # LED 控制模块
-│   └── database.py      # 数据库管理模块
-├── data/                # 数据文件
-│   └── wifi_history.db  # WiFi 历史数据库
-├── templates/           # Web 模板
-│   ├── index.html       # 主页面
-│   ├── success.html     # 成功页面
-│   └── error.html       # 错误页面
-├── static/              # 静态资源
-│   └── styles.css       # CSS 样式文件
-├── images/              # 项目图片
-│   ├── architecture.png # 项目架构图
-│   ├── web_ui.png       # Web 界面截图
-│   └── led_status.png   # LED 状态指示图
-├── requirements.txt     # 依赖文件
-├── README.md            # 项目文档
-└── DEPLOY.md            # 部署指南
+├── main.py                  # 主程序
+├── src/                     # 源代码目录
+│   ├── wifi_manager.py      # WiFi 管理模块
+│   ├── hotspot_manager.py   # 热点管理模块
+│   ├── led_control.py       # LED 控制模块
+│   └── database.py          # 数据库管理模块
+├── data/                    # 数据文件
+│   └── wifi_history.db      # WiFi 历史数据库
+├── templates/               # Web 模板
+│   ├── index.html           # 主页面
+│   ├── success.html         # 成功页面
+│   └── error.html           # 错误页面
+├── static/                  # 静态资源
+│   └── styles.css           # CSS 样式文件
+├── images/                  # 项目图片
+│   ├── architecture.png     # 项目架构图
+│   ├── web_ui.png           # Web 界面截图
+│   └── led_status.png       # LED 状态指示图
+├── orangepi-connectease.service # 系统服务配置文件
+├── requirements.txt         # 依赖文件
+├── README.md                # 项目文档
+└── DEPLOY.md                # 部署指南
 ```
 
 ## 6. 注意事项
