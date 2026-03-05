@@ -98,7 +98,7 @@ OrangePi-ConnectEase/
 ├── data/                    # 数据文件
 │   └── wifi_history.db      # WiFi 历史数据库
 ├── logs/                    # 日志文件目录
-│   └── orange pi-connectease-YYYY-MM-DD.log # 按日期命名的日志文件
+│   └── orange-pi-connectease-YYYY-MM-DD.log # 按日期命名的日志文件
 ├── templates/               # Web 模板
 │   ├── index.html           # 主页面
 │   ├── success.html         # 成功页面

@@ -10,15 +10,17 @@ from flask import Flask, render_template, request, redirect, url_for
 
 # 配置日志
 import datetime
-import os
+
+# 获取项目根目录
+project_root = os.path.dirname(os.path.abspath(__file__))
 
 # 创建logs目录
-logs_dir = 'logs'
+logs_dir = os.path.join(project_root, 'logs')
 os.makedirs(logs_dir, exist_ok=True)
 
 # 生成当天日期的日志文件名
 today = datetime.datetime.now().strftime('%Y-%m-%d')
-log_file = os.path.join(logs_dir, f'orange pi-connectease-{today}.log')
+log_file = os.path.join(logs_dir, f'orange-pi-connectease-{today}.log')
 
 # 配置日志
 logging.basicConfig(
